@@ -1,0 +1,134 @@
+#:import utils kivy.utils
+#:import Factory kivy.factory.Factory
+
+<Button>
+    font_size: 32
+    background_normal : ''
+    background_color : utils.get_color_from_hex('#E1E8EB')
+
+<TextInput>
+    font_size: 24
+    background_normal : ''
+    background_color : utils.get_color_from_hex('#E1E8EB')
+
+<Label>
+    font_size: 24
+
+<MySpinnerOption@SpinnerOption>
+    color: (0,0,0,1)
+
+<MyLayout>
+    canvas.before:
+        Color:
+            rgba: (255/255, 255/255, 255/255, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        spacing: 10
+        padding: 20
+
+        AsyncImage:
+            source: 'https://http2.mlstatic.com/frontend-assets/ui-navigation/5.18.7/mercadolibre/logo__large_plus.png'
+            allow_strerch: True
+            keep_ratio : True
+
+        Label:
+            text: "Términos de búsqueda"
+            background_normal : ''
+            background_color : (0.08,0.08,0.08,1)
+            font_size: 32
+            color: (0,0,0,1)
+#            canvas.before:
+#                Color:
+#                    rgba: self.background_color
+#                Rectangle:
+#                    size: self.size
+#                    pos: self.pos
+            #Text props
+#            color: (0,1,1,1)
+#            bold: True
+#            outline_color: (0,0,0,1)
+#            outline_width: 2
+        TextInput:
+            id: keywords_input
+            multiline: False
+            size_hint: (.6, 0.7)
+            pos_hint: {'center_x': 0.5}
+            hint_text : 'Foco led A19 Wifi'
+            halign: "center"
+
+        Label:
+            text: "Límite de resultados"
+            font_size: 32
+            color: (0,0,0,1)
+        TextInput:
+            id: limit_input
+            input_filter: 'int'
+            multiline: False
+            size_hint: (.6, 0.7)
+            pos_hint: {'center_x': 0.5}
+            hint_text : '50'
+            halign: "center"
+
+        Label:
+            text: "Tipo de búsqueda"
+            font_size: 32
+            color: (0,0,0,1)
+#        TextInput:
+#            id: search_type_input
+#            multiline: False
+#            size_hint: (.6, 0.7)
+#            pos_hint: {'center_x': 0.5}
+#            hint_text : 'Completa/Simple'
+#            halign: "center"
+        
+        Spinner:
+            id: spinner
+            text: "Sencilla"
+            values: ['Completa','Sencilla']
+            font_size: 32
+            color: (0,0,0,1)
+            size_hint: (.6, 0.7)
+            pos_hint: {'center_x': 0.5}
+            on_text: root.spinner_clicked(spinner.text)
+            option_cls: Factory.get("MySpinnerOption")
+
+
+        Button:
+            text: "Iniciar"
+            size_hint: (None,None)
+            pos_hint: {'center_x': 0.5}
+            width: 200
+            height: 50
+            background_color : utils.get_color_from_hex('#0da837')
+            padding_y: [20,0]
+            on_press : root.initialize_scrapping(spinner.text)
+
+        Button:
+            text: "Limpiar"
+            size_hint: (None,None)
+            pos_hint: {'center_x': 0.5}
+            width: 200
+            height: 50
+            background_color : utils.get_color_from_hex('#f73802')
+            on_press : root.clear()
+
+        Label:
+            id: status_label
+            text: "Estatus: No conectado"
+            background_normal : ''
+            background_color : utils.get_color_from_hex('#3B3C3D')
+            font_size: 20
+            color: (1,1,1,1)
+            size_hint: (1, 1)
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
